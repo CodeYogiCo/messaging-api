@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mangofactory.swagger.plugin.EnableSwagger;
@@ -26,6 +27,14 @@ public class UserApiController {
 	
 	public List<UserDetails> getUserById(@PathVariable Integer userId){
 		return userApiService.getUserById(userId);
+	}
+	
+	@ApiOperation(value="get user name by twitter Id ")
+	@RequestMapping(value="/users/by_twitter_id" ,method=RequestMethod.GET,
+	produces={"text/xml","application/json"})
+	
+	public UserDetails getUserByTwitterId(@RequestParam Integer twitterId){
+		return userApiService.getUserByTwitterId(twitterId);
 	}
 	
 	
