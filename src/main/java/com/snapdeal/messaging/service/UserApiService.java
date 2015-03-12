@@ -9,4 +9,6 @@ public interface UserApiService {
 	
 	public List<UserDetails> getUserById(Integer userId);
 
+	public UserDetails getUserByTwitterId(Integer twitterId);
+
 }

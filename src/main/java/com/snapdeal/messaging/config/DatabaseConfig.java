@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 
@@ -32,5 +33,10 @@ public class DatabaseConfig {
 	@Bean
 	public JdbcTemplate getJdbcTemplate(){
 		return new JdbcTemplate(datasource());
+	}
+	
+	@Bean
+	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(){
+		return new NamedParameterJdbcTemplate(datasource());
 	}
 }
