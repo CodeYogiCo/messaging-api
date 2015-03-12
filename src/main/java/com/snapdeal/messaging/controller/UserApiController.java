@@ -16,29 +16,35 @@ import com.wordnik.swagger.annotations.ApiOperation;
 
 
 @RestController
-@EnableSwagger
+
 public class UserApiController {
 	@Autowired
 	private UserApiService userApiService;
-	
+
 	@ApiOperation(value="get user name by identifier ")
 	@RequestMapping(value="/user/{userId}" ,method=RequestMethod.GET,
 	produces={"text/xml","application/json"})
-	
 	public List<UserDetails> getUserById(@PathVariable Integer userId){
 		return userApiService.getUserById(userId);
 	}
-	
+
 	@ApiOperation(value="get user name by twitter Id ")
 	@RequestMapping(value="/users/by_twitter_id" ,method=RequestMethod.GET,
 	produces={"text/xml","application/json"})
-	
-	public UserDetails getUserByTwitterId(@RequestParam Integer twitterId){
+	public List<UserDetails> getUserByTwitterId(@RequestParam String twitterId){
 		return userApiService.getUserByTwitterId(twitterId);
 	}
 	
-	
-	
-	
+
+	@ApiOperation(value="get user name by facebook Id ")
+	@RequestMapping(value="/users/by_facebook_id" ,method=RequestMethod.GET,
+	produces={"text/xml","application/json"})
+	public List<UserDetails> getUserByFacebookId(@RequestParam String facebookId){
+		return userApiService.getUserByFacebookId(facebookId);
+	}
+
+
+
+
 
 }
