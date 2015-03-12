@@ -1,0 +1,8 @@
+/home/vishalvaibhav/workspace/messaging-api/src/main/java/com/snapdeal/messaging/config/WebConfig.java
+/home/vishalvaibhav/workspace/messaging-api/src/main/java/com/snapdeal/messaging/config/ServletConfig.java
+/home/vishalvaibhav/workspace/messaging-api/src/main/java/com/snapdeal/messaging/core/Application.java
+/home/vishalvaibhav/workspace/messaging-api/src/main/java/com/snapdeal/messaging/model/UserDetails.java
+/home/vishalvaibhav/workspace/messaging-api/src/main/java/com/snapdeal/messaging/config/DatabaseConfig.java
+/home/vishalvaibhav/workspace/messaging-api/src/main/java/com/snapdeal/messaging/controller/UserApiController.java
+/home/vishalvaibhav/workspace/messaging-api/src/main/java/com/snapdeal/messaging/serviceImpl/UserApiServiceImpl.java
+/home/vishalvaibhav/workspace/messaging-api/src/main/java/com/snapdeal/messaging/service/UserApiService.java
