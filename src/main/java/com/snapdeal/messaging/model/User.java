@@ -1,9 +1,16 @@
 package com.snapdeal.messaging.model;
 
+import java.io.Serializable;
 
 
-public class UserDetails {
+
+public class User implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int id;
 	
 	private int owner_id;

@@ -10,12 +10,14 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 
-import com.snapdeal.messaging.model.UserDetails;
+import com.snapdeal.messaging.model.PaginatedUserDetails;
+import com.snapdeal.messaging.model.User;
 import com.snapdeal.messaging.service.UserApiService;
 
 @Service
@@ -24,66 +26,107 @@ public class UserApiServiceImpl implements UserApiService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterTemplate;
-	
+
 	@Resource
 	private Environment environment;
 
 
-	public List<UserDetails> getUserById(Integer userId) {
+	public List<User> getUserById(Integer userId) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource("id", userId);
-		List<UserDetails> listOfUserDetails= new ArrayList<UserDetails>();
+		List<User> listOfUserDetails= new ArrayList<User>();
 		listOfUserDetails= namedParameterTemplate.query(environment.getProperty
 				("userQueryById"), namedParameters,
-				new BeanPropertyRowMapper<UserDetails>(UserDetails.class));
+				new BeanPropertyRowMapper<User>(User.class));
 		return listOfUserDetails;
 	}
 
 
 	@Override
-	public List<UserDetails> getUserByTwitterId(String twitterId) {
+	public List<User> getUserByTwitterId(String twitterId) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource("twitter_id", twitterId);
-		List<UserDetails> listOfUserDetails= new ArrayList<UserDetails>();
+		List<User> listOfUserDetails= new ArrayList<User>();
 		listOfUserDetails= namedParameterTemplate.query(environment.getProperty
 				("userQueryByTwitterId"), namedParameters,
-				new BeanPropertyRowMapper<UserDetails>(UserDetails.class));
+				new BeanPropertyRowMapper<User>(User.class));
 		return listOfUserDetails;
-		
+
 
 		//return getDummyData();
 	}
-//	
-//	public List<PaginatedUserDetails> getPaginatedDetails(Integer userId){
-//		List<UserDetails> data = getDummyData();
-//		PaginatedUserDetails pud = new PaginatedUserDetails();
-//		pud.setCurrent_page(1);
-//		pud.setItems(data);
-//		pud.setPer_page(10);
-//		pud.setTotal_entries(100);
-//		List<PaginatedUserDetails> pudList = new ArrayList<PaginatedUserDetails>();
-//		pudList.add(pud);
-//		return pudList;
-//	}
-//	
-//	
-//	private List<UserDetails> getDummyData(){
-//		return jdbcTemplate.query("select * from user_details",
-//				new BeanPropertyRowMapper(UserDetails.class) );
-//
-//	}
+
+	@Override
+	public List<User>  getUserByFacebookId(String facebookId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource("facebook_id", facebookId);
+		List<User> listOfUserDetails= new ArrayList<User>();
+		listOfUserDetails= namedParameterTemplate.query(environment.getProperty
+				("userQueryByFacebookId"), namedParameters,
+				new BeanPropertyRowMapper<User>(User.class));
+		return listOfUserDetails;
+	}
 
 
 	@Override
-	public List<UserDetails>  getUserByFacebookId(String facebookId) {
-		SqlParameterSource namedParameters = new MapSqlParameterSource("facebook_id", facebookId);
-		List<UserDetails> listOfUserDetails= new ArrayList<UserDetails>();
+	public List<User> getUserByLoginId(String login) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource("login", login);
+		List<User> listOfUserDetails= new ArrayList<User>();
 		listOfUserDetails= namedParameterTemplate.query(environment.getProperty
-				("userQueryByFacebookId"), namedParameters,
-				new BeanPropertyRowMapper<UserDetails>(UserDetails.class));
+				("userQueryByLogin"), namedParameters,
+				new BeanPropertyRowMapper<User>(User.class));
 		return listOfUserDetails;
 	}
-	
+
+
+	@Override
+	public List<User> getUserByEmail(String email) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource("email", email);
+		List<User> listOfUserDetails= new ArrayList<User>();
+		listOfUserDetails= namedParameterTemplate.query(environment.getProperty
+				("userQueryByEmail"), namedParameters,
+				new BeanPropertyRowMapper<User>(User.class));
+		return listOfUserDetails;
+	}
+
+
+	@Override
+	public List<User> getUserByFullName(String full_name) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource("full_name", full_name);
+		List<User> listOfUserDetails= new ArrayList<User>();
+		listOfUserDetails= namedParameterTemplate.query(environment.getProperty
+				("userQueryByFullName"), namedParameters,
+				new BeanPropertyRowMapper<User>(User.class));
+		return listOfUserDetails;
+	}
+
+
+	@Override
+	public boolean createUser(User user) {
+		boolean status=true;
+		try{
+			SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(user);
+			namedParameterTemplate.update(environment.getProperty("userInsertQuery"), namedParameters);
+		}
+		catch(Exception e){
+			status=false;
+		}
+		return status;	
+	}
+
+
+	@Override
+	public PaginatedUserDetails getListOfUser() {
+		PaginatedUserDetails pud= new PaginatedUserDetails();
+		pud.setCurrent_page(1);
+		pud.setPer_page(10);
+		pud.setTotal_entries(8);
+		List<User> listOfItems= new ArrayList<User>();
+		listOfItems=jdbcTemplate.query(environment.getProperty("queryForUserList"), 
+				new BeanPropertyRowMapper(User.class));
+		pud.setItems(listOfItems);
+		return pud;
+	}
+
 
 }

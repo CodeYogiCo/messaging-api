@@ -12,7 +12,7 @@ public class PaginatedUserDetails {
 	
 	private int total_entries;
 	
-	private List<UserDetails>  items;
+	private List<User>  items;
 
 	public int getCurrent_page() {
 		return current_page;
@@ -38,11 +38,11 @@ public class PaginatedUserDetails {
 		this.total_entries = total_entries;
 	}
 
-	public List<UserDetails> getItems() {
+	public List<User> getItems() {
 		return items;
 	}
 
-	public void setItems(List<UserDetails> items) {
+	public void setItems(List<User> items) {
 		this.items = items;
 	}
 
